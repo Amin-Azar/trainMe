@@ -7,10 +7,8 @@
 
 # ---- INIT PATHS ---------------
 
-ws='/home/aming/MICRO/mobilenetv2/imagenet_pytorch_training'
-rs='/home/aming/MICRO/mobilenetv2/imagenet_pytorch_training'
-sc=$ws
-SCRATCH=$sc #/home/aming/scratch
+ws=${TRAIN_HOME}
+SCRATCH=$ws
 
 #------- PARAMETERS --------------
 FOLDER="${SLURM_JOB_NAME##*@}"
@@ -80,24 +78,7 @@ REMAINING="${REMAINING#*_}"
 QF="${REMAINING%%_*}"
 REMAINING="${REMAINING#*_}"
 
-#echo $LR
-#echo $LD
-#echo $LS
-#echo $ID
-#echo $TS
-#echo $EP
-#echo $BS
-#echo $WD
-#echo $MO
-#echo $DB
-#echo $ST
-#echo $QI
-#echo $QS
-#echo $QF
-
 # ----- PATHS -----------------------
-#INPUT_FOLDER=$ws/${FOLDER}/${CONFIG}
-#OUTPUT_FOLDER=$rs/${FOLDER}/${CONFIG}
 
 cd $SCRATCH
 mkdir -p $FOLDER; cd $FOLDER
@@ -106,9 +87,9 @@ mkdir -p $SLURM_JOB_NAME; cd $SLURM_JOB_NAME
 
 tmpPath=$SCRATCH/$FOLDER/tmps/$SLURM_JOB_NAME
 cp $ws/schedules/${SLURM_JOB_NAME}.csv $tmpPath/schedule.csv
-SING_IMG='qe_0516.simg'
+SING_IMG='path_to/custom.simg'
 IN='/datasets/IMAGENET-UNCROPPED'
 echo "This machine is Jarvis (for now): $(hostname)"
 # ------ RUN INSIDE SINGULARITY IMAGE -------------------
-singularity exec --nv -B /home -B /scratch -B /datasets /home/aming/${SING_IMG} sh -c "sleep 10; nvidia-smi; cd $tmpPath; mkdir -p dumps; echo running at:$(pwd); bash $ws/run_tune.sh $LR $LD $LS $ID $TS $EP $BS $WD $MO $DB $ST $QI $QS $QF $MD $IN"
+singularity exec --nv -B /home -B /scratch -B /datasets ${SING_IMG} sh -c "sleep 10; nvidia-smi; cd $tmpPath; mkdir -p dumps; echo running at:$(pwd); bash $ws/run_tune.sh $LR $LD $LS $ID $TS $EP $BS $WD $MO $DB $ST $QI $QS $QF $MD $IN"
 

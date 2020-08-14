@@ -6,8 +6,6 @@
 #SBATCH --gres=gpu:1
 #SBATCH --account=your-account
 
-ws=${TRAIN_HOME}
-
 echo "started the RunBench at $(date)"
 module load python/3.6
 virtualenv --no-download $SLURM_TMPDIR/env
@@ -24,9 +22,7 @@ pip install $ws/utils/torch_qe/setup.py
 # ---- INIT PATHS ---------------
 
 ws=${TRAIN_HOME}
-rs=$ws
-sc=$ws
-SCRATCH=$sc 
+SCRATCH=$ws 
 
 #------- PARAMETERS --------------
 FOLDER="${SLURM_JOB_NAME##*@}"

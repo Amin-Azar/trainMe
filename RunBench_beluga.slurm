@@ -15,9 +15,7 @@ echo "started the RunBench at $(date)"
 # ---- INIT PATHS ---------------
 
 ws=${TRAIN_HOME}
-rs=$ws
-sc=$ws
-SCRATCH=$sc
+SCRATCH=$ws
 
 #------- PARAMETERS --------------
 FOLDER="${SLURM_JOB_NAME##*@}"
